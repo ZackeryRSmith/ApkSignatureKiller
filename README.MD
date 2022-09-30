@@ -1,5 +1,5 @@
 # APK signature verification cracking 
-A fork of L-JINBIN's [ApkSignatureKiller](https://github.com/L-JINBIN/ApkSignatureKiller), using a mix of google translator and my brain to make the translation. Note this isn't a one to one translation, nor is it meant to be. This fork is for my english speaking homies that what to use this program with relitive ease.
+A fork of L-JINBIN's [ApkSignatureKiller](https://github.com/L-JINBIN/ApkSignatureKiller), using a mix of google translator and my brain to make the translation. Note this isn't a one to one translation, nor is it meant to be. This fork is for my english speaking homies that want to use this program with relitive ease.
 
 ## How it works
 ApkSignaturKiller works by inserting code into the Application entry, hooking the getPackageInfo method of PackageManager then changing the signature.
