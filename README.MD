@@ -1,35 +1,25 @@
-一键破解APK签名校验
-=================
+# APK signature verification cracking 
+A fork of L-JINBIN's [ApkSignatureKiller](https://github.com/L-JINBIN/ApkSignatureKiller), using a mix of google translator and my brain to make the translation.
 
-参考自[fourbrother/kstools](https://github.com/fourbrother/kstools)，在其基础上进行了部分改进，并用纯 Java 实现。
+## Principles
+By inserting code into the Application entry, hook the getPackageInfo method of PackageManager in the program and change the obtained signature information.
 
-原理
------
+## Processing steps
+1. Read the signature information of the original APK.
+2. Replace or add the name attribute of the application in AndroidManifest.xml.
+3. Read PmsHookApplication.smali and replace the signature information. If the original APK modifies the Application, you'll also need to modify the parent class of PmsHookApplication, and finally compile smali and add it to classes.dex.
+4. Sign the output APK.
 
-通过插入代码到 Application 入口，hook 了程序中 PackageManager 的 getPackageInfo 方法，改变了其获取到的签名信息。
+## Instructions
+1. To use this tool, you need to install the Java environment first, and nkstool.jar is a compiled file.
+2. Modify the configuration information in config.txt as needed, and put the corresponding apk in the project root directory.
+3. run, three ways
+    - Open the project with IDEA and run the source code
+    - Windows system can directly open run.bat to execute。
+    - On Linux or MacOS, open a terminal, cd to the project root directory, type java -jar nkstool.jar and press Enter.
+4. Test output apk file
 
-处理步骤
--------
+## Other
+If you do not need the source code, you can only keep nkstool.jar, config.txt, run.bat and other files.
 
-1. 读取原APK的签名信息。
-2. 替换或添加 AndroidManifest.xml 中 application 的 name 属性。
-3. 读取 PmsHookApplication.smali 并替换签名信息，如果原 APK 自定义了 Application，还需要修改 PmsHookApplication 的父类，最后编译 smali 并添加到 classes.dex 中。
-4. 对输出的APK进行签名。
-
-使用方法
--------
-
-1. 使用本工具需要先安装 Java 环境，nkstool.jar 是已编译好的文件。
-2. 按需修改 config.txt 中的配置信息，把相应apk放到项目根目录。
-3. 运行，三种方式
-    - 用 IDEA 打开项目并运行源码。
-    - Windows 系统可以直接打开 run.bat 执行。
-    - Linux 或 MacOS 系统中，打开终端，cd到项目根目录，输入 java -jar nkstool.jar 并回车。
-4. 测试输出的 apk 文件
-
-其它
-----
-
-如果不需要源码，可以只保留nkstool.jar、config.txt、run.bat等文件。
-
-本工具只对那些仅通过 PackageManager.getPackageInfo().signatures 来校验签名的应用有效。
+This tool only works for applications whose signatures are only verified by PackageManager.getPackageInfo().signatures.
