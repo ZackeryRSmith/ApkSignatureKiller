@@ -48,15 +48,15 @@ public class NKillSignatureTool {
         String signAlias = properties.getProperty("sign.alias");
         String signAliasPassword = properties.getProperty("sign.aliasPassword");
 
-        System.out.println("正在读取签名：" + signApk.getPath());
+        System.out.println("Reading signature: " + signApk.getPath());
         signatures = getApkSignatureData(signApk);
         byte[] manifestData;
         byte[] dexData;
 
-        System.out.println("\n正在读取APK：" + srcApk.getPath());
+        System.out.println("\nReading APK: " + srcApk.getPath());
 
         try (ZipFile zipFile = new ZipFile(srcApk)) {
-            System.out.println("  --正在处理AndroidManifest.xml");
+            System.out.println("  --Processing AndroidManifest.xml");
             ZipEntry manifestEntry = zipFile.getEntry("AndroidManifest.xml");
             manifestData = parseManifest(zipFile.getInputStream(manifestEntry));
 
@@ -64,10 +64,10 @@ public class NKillSignatureTool {
             DexBackedDexFile dex = DexBackedDexFile.fromInputStream(Opcodes.getDefault(),
                     new BufferedInputStream(zipFile.getInputStream(dexEntry)));
 
-            System.out.println("  --正在处理classes.dex");
+            System.out.println("  --Processing classes.dex");
             dexData = processDex(dex);
 
-            System.out.println("\n正在写出APK：" + outApk.getPath());
+            System.out.println("\nWriting out APK: " + outApk.getPath());
             try (ZipOutputStream zos = new ZipOutputStream(outApk)) {
                 zos.putNextEntry("AndroidManifest.xml");
                 zos.write(manifestData);
@@ -88,7 +88,7 @@ public class NKillSignatureTool {
                 }
             }
             if (signEnable) {
-                System.out.println("\n正在签名APK：" + outApk.getPath());
+                System.out.println("\nSigning APK: " + outApk.getPath());
                 KeystoreKey keystoreKey = new KeystoreKey(signFile, signPassword, signAlias, signAliasPassword);
                 File temp = new File(outApk.getPath() + ".tmp");
                 ApkSigner.signApk(outApk, temp, keystoreKey,null);
@@ -96,7 +96,7 @@ public class NKillSignatureTool {
                 temp.renameTo(outApk);
             }
 
-            System.out.println("\n处理完成");
+            System.out.println("\nprocessing completed");
         }
     }
 
